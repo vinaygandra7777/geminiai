@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini AI Chat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        :root {
+            --background-color-dark: #1e1f20;
+            --text-color-dark: white;
+            --message-user-dark: linear-gradient(135deg, #0056b3, #007aff);
+            --message-bot-dark: #444;
+
+            --background-color-light: #f5f5f5;
+            --text-color-light: #333;
+            --message-user-light: #007aff;
+            --message-bot-light: #ddd;
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            height: 100%;
+            overflow: hidden;
+            background: #1e1f20;
+            font-family: "Poppins", serif;
+            font-weight: 300;
+            font-style: normal;
+        }
+
+        #chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Message Section */
+        #messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: #444 #1e1f20;
+        }
+
+        #messages::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        #messages::-webkit-scrollbar-thumb {
+            background-color: #444;
+            border-radius: 5px;
+        }
+
+        #messages::-webkit-scrollbar-track {
+            background-color: #1e1f20;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 15px;
+            max-width: 60%;
+            word-wrap: break-word;
+            animation: slideIn 0.3s ease-in-out;
+        }
+
+        .user {
+            background: linear-gradient(135deg, #0056b3, #007aff);
+            color: white;
+            align-self: flex-end;
+        }
+
+        .bot {
+            background: #444;
+            color: white;
+            align-self: flex-start;
+        }
+
+        /* Input Section */
+        #input-container {
+            display: flex;
+            padding: 15px;
+            background: #1e1f20;
+            border-top: 1px solid #444;
+        }
+
+        #input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            background: #333;
+            color: white;
+            outline: none;
+        }
+        #input:focus {
+            box-shadow: 0 0 10px rgba(66, 133, 244, 0.8);
+        }
+        #send-btn, #delete-btn,#toggle-mode {
+            margin-left: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            background: linear-gradient(to right,#4285f4,#d96570);
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+            
+        }
+
+        #send-btn:hover, #delete-btn:hover,#toggle-mode:hover {
+            transform: scale(1.05);
+        }
+
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        body.light-mode {
+            background: var(--background-color-light);
+            color: var(--text-color-light);
+        }
+
+        body.light-mode #messages::-webkit-scrollbar-thumb {
+            background-color: var(--message-bot-light);
+        }
+
+        body.light-mode .user {
+            background: var(--message-user-light);
+        }
+
+        body.light-mode .bot {
+            background: var(--message-bot-light);
+            color: var(--text-color-light);
+        }
+
+        body.light-mode #input-container {
+            background: var(--background-color-light);
+        }
+
+        body.light-mode #send-btn, body.light-mode #delete-btn {
+            /* background: var(--message-user-light); */
+            background: linear-gradient(to right,#4285f4,#d96570);
+        }
+        #toggle-mode{
+            position: absolute;
+            right: 1%;
+        }
+        #delete-btn{
+            position: absolute;
+            right: 9%;
+        }
+        .header h1,p{
+            font-size: 3.5em;
+            background-clip: text;
+            background: linear-gradient(to right,#4285f4,#d96570);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+          
+        }
+        .header p{
+            font-size: 1.5em;
+            background-clip: text;
+            background: linear-gradient(to right,#4285f4,#d96570);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+        @media screen and (max-width: 768px) {
+            #messages {
+                padding: 10px;
+            }
+
+            #input {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            #send-btn {
+                padding: 8px 15px;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .message {
+                max-width: 80%;
+            }
+            #input-container{
+                display: grid;
+                grid-template-columns: 3fr 1fr;
+            }
+            #toggle-mode{
+            position: absolute;
+            right: 1%;
+            font-size: 0.5em;
+        }
+        #delete-btn{
+            position: absolute;
+            right: 25%;
+            font-size: 0.5em;
+        }
+
+        }
+
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div class="header">
+            <br>
+            <button id="toggle-mode">Light mode</button>
+            <button id="delete-btn">Clear Chat</button>
+        <h1>Hello, There</h1>
+        <p>How can i assist you today ?</p>
+        </div>
+        <div id="messages"></div>
+        <div id="input-container">
+            <input type="text" id="input" placeholder="Ask Anything.....">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
