@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <style>
-        /* Global Styles */
+        
         :root {
             --background-color-dark: #1e1f20;
             --text-color-dark: white;
@@ -23,13 +23,13 @@
         body, html {
             margin: 0;
             padding: 0;
-            font-family: 'Poppins', sans-serif;
             height: 100%;
             overflow: hidden;
             background: #1e1f20;
-            font-family: "Poppins", serif;
-            font-weight: 300;
-            font-style: normal;
+            font-family: "Space Grotesk", serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
         }
 
         #chat-container {
@@ -111,7 +111,7 @@
             border: none;
             border-radius: 25px;
             font-weight: bold;
-            background: linear-gradient(to right,#4285f4,#d96570);
+            background: linear-gradient(to left,#4285f4,#d96570);
             color: white;
             cursor: pointer;
             transition: transform 0.2s ease-in-out;
@@ -169,12 +169,13 @@
             right: 9%;
         }
         .header h1,p{
-            font-size: 3.5em;
+            font-size: 3em;
             background-clip: text;
-            background: linear-gradient(to right,#4285f4,#d96570);
+            background: linear-gradient(#4285f4,#d96570);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
+            /* font-family: 'Orbitron', sans-serif; */
           
         }
         .header p{
@@ -184,6 +185,17 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
+        }
+        .gen{
+
+            margin-left: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            background: linear-gradient(to right,#4285f4,#d96570);
+            color: white;
+
         }
         @media screen and (max-width: 768px) {
             #messages {
@@ -219,6 +231,7 @@
             font-size: 0.5em;
         }
 
+
         }
 
     </style>
@@ -227,11 +240,15 @@
     <div id="chat-container">
         <div class="header">
             <br>
+            <button class="gen">Genii</button>
             <button id="toggle-mode">Light mode</button>
             <button id="delete-btn">Clear Chat</button>
-        <h1>Hello, There</h1>
-        <p>How can i assist you today ?</p>
+            <div class="mainclass" id="main">
+        <h1>Welcome to the nexus of intelligence</h1>
+        <p> What wisdom do you seek?</p>
+            </div>
         </div>
+        <br><br><br><br>
         <div id="messages"></div>
         <div id="input-container">
             <input type="text" id="input" placeholder="Ask Anything.....">

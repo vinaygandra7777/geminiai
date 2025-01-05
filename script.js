@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
     const api_url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCB9xqn9EwW91nlS2XojzuN6lQgr2Pj7Iw`;
 
@@ -7,7 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const messagesContainer = document.getElementById('messages');
     const deleteButton = document.getElementById('delete-btn');
     const toggleModeButton = document.getElementById('toggle-mode');
+    const mainClass = document.getElementById('main');
     let isDarkMode = true;
+
     const displayMessage = (message, sender, isTypingEffect = false) => {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message', sender);
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             messageElement.textContent = message;
         }
     };
+
     const showTypingEffect = (text, textElement) => {
         const words = text.split(' ');
         let currentWordIndex = 0;
@@ -32,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 100);
     };
+
     const generateAIResponse = async (usermessage) => {
         displayMessage("...", 'bot');
         try {
@@ -56,22 +59,31 @@ document.addEventListener('DOMContentLoaded', () => {
             displayMessage("An error occurred. Please try again later.", 'bot');
         }
     };
-    sendButton.addEventListener('click', () => {
+
+    const handleSend = () => {
         const usermessage = inputField.value.trim();
         if (usermessage) {
+            if (mainClass.style.display !== 'none') {
+                mainClass.style.display = 'none'; // Hide the mainclass element
+            }
             displayMessage(usermessage, 'user');
             inputField.value = '';
             generateAIResponse(usermessage);
         }
-    });
+    };
+
+    sendButton.addEventListener('click', handleSend);
+
     inputField.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
-            sendButton.click();
+            handleSend();
         }
     });
+
     deleteButton.addEventListener('click', () => {
         messagesContainer.innerHTML = '';
     });
+
     toggleModeButton.addEventListener('click', () => {
         isDarkMode = !isDarkMode;
         document.body.classList.toggle('light-mode');
