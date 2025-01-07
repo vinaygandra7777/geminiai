@@ -39,7 +39,6 @@
             width: 100%;
         }
 
-        /* Message Section */
         #messages {
             flex: 1;
             padding: 20px;
@@ -197,6 +196,88 @@
             color: white;
 
         }
+        .mainside{
+            display: grid;
+            grid-template-columns: 25% 75%;
+            height: 100vh;
+        }
+        .history{
+            background-color: #333;
+        }
+        .history button{
+            text-align: center;
+            margin-left: 35%;
+            margin-top: 5%;
+            font-size: 1.3em;
+            padding: 10px;
+            background:var(--background-color-dark);
+            color: white;
+        }
+        .history button:hover{
+            cursor: pointer;
+            transform: scale(1.05);
+        }
+        .bottom{
+            position: absolute;
+            bottom: 0%;
+            left: 7%;
+            font-size: 1.4em;
+            color: white;
+        }
+        .info{
+            text-align: center;
+            color: white;
+            font-size: 1em;
+        }
+        #history{
+            color: white;
+            margin-left: 3%;
+            margin-top: 5%;
+            font-size: 1.4em;
+        }
+        #history {
+    display: none;
+    color: white;
+    text-align: center;
+    margin-top: 5%;
+    font-size: 1.4em;
+    overflow-y: auto;
+    max-height: 70vh;
+}
+
+.history {
+    background-color: #333;
+    padding: 10px;
+    overflow-y: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.history.show {
+    overflow-y: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .history {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 1000;
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    #toggle-history-btn {
+        display: block;
+        margin: 10px auto;
+        width: 80%;
+    }
+
+    #history {
+        display: block;
+    }
+}
+
         @media screen and (max-width: 768px) {
             #messages {
                 padding: 10px;
@@ -230,6 +311,17 @@
             right: 25%;
             font-size: 0.5em;
         }
+        .history{
+            display: none;
+            
+        }
+        .mainside{
+            display: grid;
+            grid-template-columns: auto;
+        }
+        .info{
+            font-size: 0.6em;
+        }
 
 
         }
@@ -237,6 +329,15 @@
     </style>
 </head>
 <body>
+    <div class="mainside">
+    <div class="history">
+        <button id="chatbutton">New Chat</button>
+        <div id="history">
+    </div>
+        <div class="bottom">
+            <h5>Made By Vinay</h5>
+        </div>
+    </div>
     <div id="chat-container">
         <div class="header">
             <br>
@@ -248,13 +349,18 @@
         <p> What wisdom do you seek?</p>
             </div>
         </div>
-        <br><br><br><br>
+        <br><br>
         <div id="messages"></div>
         <div id="input-container">
             <input type="text" id="input" placeholder="Ask Anything.....">
             <button id="send-btn">Send</button>
         </div>
+        <h4 class="info">
+            Genii Jan Version 2025.Free research preview.
+            Our goal is to make AI systems more neutral and safe to interact with.
+        </h4>
     </div>
+</div>
     <script src="script.js"></script>
 </body>
 </html>

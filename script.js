@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     const api_url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCB9xqn9EwW91nlS2XojzuN6lQgr2Pj7Iw`;
 
@@ -7,8 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const deleteButton = document.getElementById('delete-btn');
     const toggleModeButton = document.getElementById('toggle-mode');
     const mainClass = document.getElementById('main');
+    const historyContainer = document.getElementById('history');
+    const newChatButton = document.getElementById('chatbutton');
     let isDarkMode = true;
-
+    
     const displayMessage = (message, sender, isTypingEffect = false) => {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message', sender);
@@ -35,6 +38,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     };
 
+    const addToHistory = (usermessage) => {
+        const historyItem = document.createElement('div');
+        historyItem.textContent = usermessage;
+        historyItem.classList.add('history-item');
+        historyItem.style.cursor = 'pointer';
+        historyItem.style.marginBottom = '10px';
+
+        historyItem.addEventListener('click', () => {
+            inputField.value = usermessage;
+        });
+
+        historyContainer.appendChild(historyItem);
+    };
+
     const generateAIResponse = async (usermessage) => {
         displayMessage("...", 'bot');
         try {
@@ -42,13 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    contents: [ 
+                    contents: [
                         { role: "user", parts: [{ text: usermessage }] }
                     ]
                 })
             });
             const data = await response.json();
-            const aiResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text.replace(/\*\*(.*?)\*\*/g,"$1");
+            const aiResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text.replace(/\*\*(.*?)\*\*/g, "$1");
             const lastBotMessage = messagesContainer.querySelector('.bot:last-child');
             if (lastBotMessage) lastBotMessage.remove();
             displayMessage(aiResponse, 'bot', true);
@@ -64,9 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const usermessage = inputField.value.trim();
         if (usermessage) {
             if (mainClass.style.display !== 'none') {
-                mainClass.style.display = 'none'; // Hide the mainclass element
+                mainClass.style.display = 'none';
             }
             displayMessage(usermessage, 'user');
+            addToHistory(usermessage);
             inputField.value = '';
             generateAIResponse(usermessage);
         }
@@ -91,5 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
             ? 'Light Mode'
             : 'Dark Mode';
     });
+
+    newChatButton.addEventListener('click', () => {
+        messagesContainer.innerHTML = '';
+        historyContainer.innerHTML = '';
+        mainClass.style.display = 'block';
+    });
 });
+
 
